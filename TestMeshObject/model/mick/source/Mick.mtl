@@ -1,0 +1,16 @@
+newmtl mat_MickHead
+map_Kd Mick_head.jpg
+
+newmtl mat_MickArmFeet
+map_Kd Mick_armlegs.jpg
+
+newmtl mat_MickBody
+map_Kd Mick_body.jpg
+
+newmtl R_eyes1SG
+map_Kd Eye.png
+
+map_Kd Iris.png
+
+newmtl R_eyes1SG2
+map_Kd Iris.png

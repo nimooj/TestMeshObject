@@ -1,0 +1,38 @@
+# MakeHuman exported MTL
+# www.makehuman.org
+
+
+newmtl creamy_female
+Kd 0.5 0.5 0.5
+Ks 0.04314 0.02745 0.02745
+d 0
+map_Kd textures\creamy_female_diffuse.png
+map_D textures\creamy_female_diffuse.png
+
+newmtl short02
+Kd 1 1 1
+Ks 0.05098 0.05098 0.05098
+d 0
+map_Kd textures\short02_diffuse.png
+map_D textures\short02_diffuse.png
+
+newmtl Eye_brown
+Kd 1 1 1
+Ks 1 1 1
+d 0
+map_Kd textures\brown_eye.png
+map_D textures\brown_eye.png
+
+newmtl materialMaterial
+Kd 0.8 0.8 0.8
+Ks 0.1 0.1 0.1
+d 0
+map_Kd textures\CrudeBraDiffuse.png
+map_D textures\CrudeBraDiffuse.png
+
+newmtl materialMaterial
+Kd 0.8 0.8 0.8
+Ks 0.1 0.1 0.1
+d 0
+map_Kd textures\CrudeFemaleUnderwearDiffuse.png
+map_D textures\CrudeFemaleUnderwearDiffuse.png
