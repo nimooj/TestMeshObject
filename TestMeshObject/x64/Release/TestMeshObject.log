@@ -1,0 +1,94 @@
+﻿  TestMeshObject.cpp
+e:\nimooj\project\testmeshobject\usr\include\meshobject\meshobject.h(42): warning C4251: 'MeshObject::m_VertBuf': class 'std::vector<float,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'MeshObject'
+          with
+          [
+              _Ty=float
+          ]
+  e:\nimooj\project\testmeshobject\usr\include\meshobject\meshobject.h(27): note: see declaration of 'std::vector<float,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=float
+          ]
+e:\nimooj\project\testmeshobject\usr\include\meshobject\meshobject.h(43): warning C4251: 'MeshObject::m_IndexBuf': class 'std::vector<int,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'MeshObject'
+          with
+          [
+              _Ty=int
+          ]
+  e:\nimooj\project\testmeshobject\usr\include\meshobject\meshobject.h(28): note: see declaration of 'std::vector<int,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=int
+          ]
+e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(377): warning C4251: 'HumanObject::m_IndexBuf': class 'std::map<std::string,std::vector<int,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>' needs to have dll-interface to be used by clients of class 'HumanObject'
+          with
+          [
+              _Ty=int,
+              _Kty=std::string
+          ]
+  e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(377): note: see declaration of 'std::map<std::string,std::vector<int,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>'
+          with
+          [
+              _Ty=int,
+              _Kty=std::string
+          ]
+e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(380): warning C4251: 'HumanObject::m_VertBuf': class 'std::map<std::string,std::vector<float,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>' needs to have dll-interface to be used by clients of class 'HumanObject'
+          with
+          [
+              _Ty=float,
+              _Kty=std::string
+          ]
+  e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(380): note: see declaration of 'std::map<std::string,std::vector<float,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>'
+          with
+          [
+              _Ty=float,
+              _Kty=std::string
+          ]
+e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(381): warning C4251: 'HumanObject::m_TexBuf': class 'std::map<std::string,std::vector<float,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>' needs to have dll-interface to be used by clients of class 'HumanObject'
+          with
+          [
+              _Ty=float,
+              _Kty=std::string
+          ]
+  e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(380): note: see declaration of 'std::map<std::string,std::vector<float,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>'
+          with
+          [
+              _Ty=float,
+              _Kty=std::string
+          ]
+e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(382): warning C4251: 'HumanObject::m_NormBuf': class 'std::map<std::string,std::vector<float,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>' needs to have dll-interface to be used by clients of class 'HumanObject'
+          with
+          [
+              _Ty=float,
+              _Kty=std::string
+          ]
+  e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(380): note: see declaration of 'std::map<std::string,std::vector<float,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>'
+          with
+          [
+              _Ty=float,
+              _Kty=std::string
+          ]
+e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(394): warning C4251: 'HumanObject::m_Segment': class 'std::vector<mjVertex *,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'HumanObject'
+          with
+          [
+              _Ty=mjVertex *
+          ]
+  e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(89): note: see declaration of 'std::vector<mjVertex *,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=mjVertex *
+          ]
+e:\nimooj\project\testmeshobject\testmeshobject\testmeshobject.cpp(367): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+e:\nimooj\project\testmeshobject\testmeshobject\testmeshobject.cpp(400): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+e:\nimooj\project\testmeshobject\testmeshobject\testmeshobject.cpp(403): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+e:\nimooj\project\testmeshobject\testmeshobject\testmeshobject.cpp(512): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+e:\nimooj\project\testmeshobject\testmeshobject\testmeshobject.cpp(513): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+e:\nimooj\project\testmeshobject\testmeshobject\testmeshobject.cpp(517): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\nimooj\project\testmeshobject\testmeshobject\testmeshobject.cpp(518): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+e:\nimooj\project\testmeshobject\testmeshobject\testmeshobject.cpp(519): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+e:\nimooj\project\testmeshobject\testmeshobject\testmeshobject.cpp(526): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Generating code
+  1 of 752 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  TestMeshObject.vcxproj -> E:\nimooj\Project\TestMeshObject\usr\bin\TestMeshObject.exe

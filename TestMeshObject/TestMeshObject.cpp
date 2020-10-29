@@ -95,6 +95,10 @@ bool show = false;
 bool showPressed = false, showCurrPressed = false;
 
 HumanObject *Human = NULL;
+Shader humanShader;
+GLuint humanVAO, humanVBO, humanEBO;
+std::vector<float> renderBuffer;
+
 
 int main(int argc, char **argv)
 {
@@ -140,7 +144,7 @@ int main(int argc, char **argv)
 	glEnable(GL_DEPTH_TEST);
 
 	/*** HUMAN ***/
-	Shader humanShader("../usr/shaders/shader_texture.vs", "../usr/shaders/shader_texture.fs");
+	humanShader = Shader("../usr/shaders/shader_texture.vs", "../usr/shaders/shader_texture.fs");
 
 	Human = new HumanObject();
 	// Human->LoadObj("model/Pose1.obj");
@@ -167,7 +171,7 @@ int main(int argc, char **argv)
 	Human->SetSize(Bust, 110.0);
 	Human->SetSize(Waist, 100.0);
 	Human->SetSize(Hip, 100.0);
-	Human->SetSize(ArmLengthR, 100.0);
+	Human->SetSize(ArmLengthR, 20.0);
 	/*
 	*/
 
@@ -191,7 +195,6 @@ int main(int argc, char **argv)
 	std::cout << "Shoulder Length : " << (*Human->m_Landmarks)[ShoulderLength]->m_Value << std::endl;
 
 
-	GLuint humanVAO, humanVBO, humanEBO;
 	glGenVertexArrays(1, &humanVAO);
 	glGenBuffers(1, &humanVBO);
 	glGenBuffers(1, &humanEBO);
@@ -214,7 +217,6 @@ int main(int argc, char **argv)
 	glBindBuffer(GL_ARRAY_BUFFER, humanVBO);
 	// glBufferData(GL_ARRAY_BUFFER, sizeof(float) * Human->m_VertBuf.size(), &Human->m_VertBuf[0], GL_STATIC_DRAW);
 
-	std::vector<float> renderBuffer;
 	std::map<std::string, std::vector<float>>::iterator it;
 	for (it = Human->m_VertBuf.begin(); it != Human->m_VertBuf.end(); it++) {
 		for (int i = 0; i < it->second.size(); i++) {

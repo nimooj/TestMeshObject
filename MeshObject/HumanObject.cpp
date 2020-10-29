@@ -485,15 +485,44 @@ void mjLandmark::Deform(float nval, float upperBound, float lowerBound) {
 }
 
 void mjLandmark::DeformLengthType(float nval) {	
-	std::cout << "Length type deformation... ";
+	std::cout << "Length type deformation... \n";
 	float scale = nval / m_Value;
+	std::cout << "scale is " << scale << std::endl;
+
 	for (int boneIdx : m_SegmentIdx) {
 		mjBone *thisBone = (*m_Human->m_Skeleton->m_Bones)[boneIdx];
 		
 		mjJoint *upperJoint = thisBone->m_UpperJoint;
 		mjJoint *lowerJoint = thisBone->m_LowerJoint;
 
-			
+		std::cout << upperJoint->m_Idx << " " << lowerJoint->m_Idx << std::endl;
+
+		mjVec3 deformVec; 
+		deformVec.m_Pos->x = scale * (lowerJoint->m_Coord->x - upperJoint->m_Coord->x);
+		deformVec.m_Pos->y = scale * (lowerJoint->m_Coord->y - upperJoint->m_Coord->y);
+		// deformVec.m_Pos->z = scale * (lowerJoint->m_Coord->z - upperJoint->m_Coord->z);
+
+		
+		for (mjVertex* v : *thisBone->m_VertList) {
+			// upperJoint를 원점으로 이동
+			/*
+			v->m_Coord->x -= upperJoint->m_Coord->x;
+			v->m_Coord->y -= upperJoint->m_Coord->y;
+			v->m_Coord->z -= upperJoint->m_Coord->z;
+			*/
+
+			// Scale
+			v->m_Coord->x += deformVec.m_Pos->x;
+			v->m_Coord->y += deformVec.m_Pos->y;
+			// v->m_Coord->z = deformVec.m_Pos->z;
+
+			// 다시 본래 위치로 복귀
+			/*
+			v->m_Coord->x += upperJoint->m_Coord->x;
+			v->m_Coord->y += upperJoint->m_Coord->y;
+			v->m_Coord->z += upperJoint->m_Coord->z;
+			*/
+		}
 	}
 }
 
@@ -717,7 +746,8 @@ HumanObject::HumanObject() {
 
 	m_VertBuf = std::map<std::string, std::vector<float>>();
 	// m_VertBuf = std::vector<float>();
-	m_IndexBuf = std::vector<int>();
+	// m_IndexBuf = std::vector<int>();
+	m_IndexBuf = std::map<std::string, std::vector<int>>();
 
 	m_Skeleton = new mjSkeleton();
 	m_Skeleton->m_Human = this;
@@ -1463,9 +1493,11 @@ void HumanObject::UpdateIndexBuff() {
 	m_IndexBuf.clear();
 
 	for (mjFace *f : *m_Faces) {
-		m_IndexBuf.push_back(f->GetVertIdx(0));
-		m_IndexBuf.push_back(f->GetVertIdx(1));
-		m_IndexBuf.push_back(f->GetVertIdx(2));
+		std::string mtlName = (f->m_Material == NULL) ? "default" : f->m_Material->m_Name;
+
+		m_IndexBuf[mtlName].push_back(f->GetVertIdx(0));
+		m_IndexBuf[mtlName].push_back(f->GetVertIdx(1));
+		m_IndexBuf[mtlName].push_back(f->GetVertIdx(2));
 	}
 }
 
@@ -1715,6 +1747,56 @@ void HumanObject::SetSize(int i, float value) {
 			thisLandmark->SetSegment(Bone_ribL);
 
 			// ToDo::Bust sizing의 경우 joint position이 업데이트되어야한다
+			float deformationScale = value / thisLandmark->m_Value;
+			float jointMovement_R = abs((*m_Skeleton->m_Joints)[Joint_shoulderR]->m_Coord->x * (deformationScale - 1));
+			float jointMovement_L = abs((*m_Skeleton->m_Joints)[Joint_shoulderL]->m_Coord->x * (deformationScale - 1));
+
+			(*m_Skeleton->m_Joints)[Joint_shoulderR]->m_Coord->x -= jointMovement_R;
+			(*m_Skeleton->m_Joints)[Joint_shoulderTwistR]->m_Coord->x -= jointMovement_R;
+			(*m_Skeleton->m_Joints)[Joint_elbowR]->m_Coord->x -= jointMovement_R;
+			(*m_Skeleton->m_Joints)[Joint_elbowTwistR]->m_Coord->x -= jointMovement_R;
+			(*m_Skeleton->m_Joints)[Joint_elbowTwist1R]->m_Coord->x -= jointMovement_R;
+			(*m_Skeleton->m_Joints)[Joint_wristR]->m_Coord->x -= jointMovement_R;
+
+			for (mjVertex *v : m_Segment[Bone_upperArmR]) {
+				v->m_Coord->x -= jointMovement_R;
+			}
+			for (mjVertex *v : m_Segment[Bone_upperArm1R]) {
+				v->m_Coord->x -= jointMovement_R;
+			}
+			for (mjVertex *v : m_Segment[Bone_lowerArmR]) {
+				v->m_Coord->x -= jointMovement_R;
+			}
+			for (mjVertex *v : m_Segment[Bone_lowerArm1R]) {
+				v->m_Coord->x -= jointMovement_R;
+			}
+			for (mjVertex *v : m_Segment[Bone_lowerArm2R]) {
+				v->m_Coord->x -= jointMovement_R;
+			}
+
+
+			(*m_Skeleton->m_Joints)[Joint_shoulderL]->m_Coord->x += jointMovement_L;
+			(*m_Skeleton->m_Joints)[Joint_shoulderTwistL]->m_Coord->x += jointMovement_L;
+			(*m_Skeleton->m_Joints)[Joint_elbowL]->m_Coord->x += jointMovement_L;
+			(*m_Skeleton->m_Joints)[Joint_elbowTwistL]->m_Coord->x += jointMovement_L;
+			(*m_Skeleton->m_Joints)[Joint_elbowTwist1L]->m_Coord->x += jointMovement_L;
+			(*m_Skeleton->m_Joints)[Joint_wristL]->m_Coord->x += jointMovement_L;
+
+			for (mjVertex *v : m_Segment[Bone_upperArmL]) {
+				v->m_Coord->x += jointMovement_L;
+			}
+			for (mjVertex *v : m_Segment[Bone_upperArm1L]) {
+				v->m_Coord->x += jointMovement_L;
+			}
+			for (mjVertex *v : m_Segment[Bone_lowerArmL]) {
+				v->m_Coord->x += jointMovement_L;
+			}
+			for (mjVertex *v : m_Segment[Bone_lowerArm1L]) {
+				v->m_Coord->x += jointMovement_L;
+			}
+			for (mjVertex *v : m_Segment[Bone_lowerArm2L]) {
+				v->m_Coord->x += jointMovement_L;
+			}
 		}
 		if (i == Waist && thisLandmark->GetSegments().empty()) {
 			thisLandmark->SetSegment(Bone_neck);
@@ -1768,6 +1850,7 @@ void HumanObject::SetSize(int i, float value) {
 	// i번째 랜드마크가 Length일 경우,
 	else if (thisLandmark->m_Type == Length) {
 		std::cout << "Landmark Length type... ";
+
 		// 각 segment를 구성하는 bone vector에 따라 scale을 수행한다
 		// Shoulder length 경우, 가로 길이이기 때문에 따로 처리 필요
 		if (i == Height && thisLandmark->GetSegments().empty()) {
@@ -1775,6 +1858,7 @@ void HumanObject::SetSize(int i, float value) {
 				thisLandmark->SetSegment(i);
 		}
 		if (i == ArmLengthR && thisLandmark->GetSegments().empty()) {
+			// thisLandmark->SetSegment(Bone_shoulderR);
 			thisLandmark->SetSegment(Bone_upperArmR);
 			thisLandmark->SetSegment(Bone_upperArm1R);
 			thisLandmark->SetSegment(Bone_lowerArmR);
@@ -1820,10 +1904,11 @@ void HumanObject::SetSize(int i, float value) {
 	}
 
 	// Update Joint positions (for Bust && shoulder length)
-	UpdateJoints();
+	// Joint position update에 따른 vertex 위치의 상대적 이동
+	// UpdateJoints();
 
 	// Update Landmarks
-	UpdateLandmarks();
+	// UpdateLandmarks();
 
 	// Update vertex bindings for render function
 	UpdateVertBuff();

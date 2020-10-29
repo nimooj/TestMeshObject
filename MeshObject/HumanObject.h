@@ -373,7 +373,8 @@ public:
 	std::vector<mjMaterial *> *m_Materials;
 
 	// buffer for rendering
-	std::vector<int> m_IndexBuf;
+	// std::vector<int> m_IndexBuf;
+	std::map<std::string, std::vector<int>> m_IndexBuf;
 
 	// std::vector<float> m_VertBuf;
 	std::map<std::string, std::vector<float>> m_VertBuf;
