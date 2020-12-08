@@ -3,6 +3,8 @@
 
 #include <cassert>
 
+#define PI 3.14159265
+
 
 //////////////////////////////////////////////////////////////////////////////////
 //								non-Member functions							//
@@ -217,6 +219,12 @@ mjPos3::mjPos3(float _x, float _y, float _z) {
 	z = _z;
 }
 
+mjPos3::mjPos3(mjVec3 v) {
+	x = v.x;
+	y = v.y;
+	z = v.z;
+}
+
 mjPos3::mjPos3(const mjPos3 &cpy) {
 	x = cpy.x;
 	y = cpy.y;
@@ -354,6 +362,14 @@ mjVec3::mjVec3(mjPos3 *start, mjPos3 *end) {
 	m_Pos = new mjPos3(x, y, z);
 }
 
+mjVec3::mjVec3(mjPos3 p) {
+	x = p.x;
+	y = p.y;
+	z = p.z;
+
+	m_Pos = new mjPos3(p);
+}
+
 mjVec3::mjVec3(const mjVec3 &cpy) {
 	x = cpy.x;
 	y = cpy.y;
@@ -447,23 +463,82 @@ mjVec3& mjVec3::operator /=(const float &rhs) {
 //////////////////////////////////////////////////////////////////////////////////
 //	 								 mjLine3									// 
 //////////////////////////////////////////////////////////////////////////////////
-mjLine3::mjLine3() {
-	m_Dir = new mjVec3();
-	m_Pos = new mjPos3();
+mjLine::mjLine() {
+	m_Dir = mjVec3(0, 1, 0);
+	m_Pos = mjPos3();
 }
 
-mjLine3::mjLine3(mjVec3 *dir, mjPos3 *pos) {
+mjLine::mjLine(mjVec3 dir, mjPos3 pos) {
 	m_Dir = dir;
 	m_Pos = pos;
 }
 
-mjLine3::mjLine3(const mjLine3 &cpy) {
+mjLine::mjLine(mjPos3 p, mjPos3 q) {
+	m_Dir = q - p;
+	m_Pos = p;
+}
+
+mjLine::mjLine(const mjLine &cpy) {
 	m_Dir = cpy.m_Dir;
 	m_Pos = cpy.m_Pos;
 }
 
-mjLine3::~mjLine3() {
 
+mjLine::~mjLine() {
+
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////
+//	 								 mjPlane									// 
+//////////////////////////////////////////////////////////////////////////////////
+mjPlane::mjPlane() {
+	m_Pos = mjPos3();
+	m_Normal = mjVec3(0, 1, 0);
+}
+
+mjPlane::mjPlane(mjPos3 p, mjPos3 q, mjPos3 r) {
+	m_Pos = p;
+	m_Normal = (q - p) ^ (r - p);
+}
+
+mjPlane::mjPlane(const mjPlane& pln) {
+	m_Pos = pln.m_Pos;
+	m_Normal = pln.m_Normal;
+}
+
+mjPlane::~mjPlane() {
+
+}
+
+bool mjPlane::IsAbove(mjPos3 p) {
+	// Normal vector客 m_Pos~p客狼 阿 < 90
+	mjVec3 v = p - m_Pos;
+	mjVec3 dot = m_Normal * v;
+
+	float angle = acos((dot.x + dot.y + dot.z) / (m_Normal.length() * v.length()));
+	// Conversion to degree
+	angle = angle * 180.0 / PI;
+
+	if (angle > 90)
+		return false;
+
+	return true;
+}
+
+bool mjPlane::IsBelow(mjPos3 p) {
+	// Normal vector客 m_Pos~p客狼 阿 < 90
+	mjVec3 v = p - m_Pos;
+	mjVec3 dot = m_Normal * v;
+
+	float angle = acos((dot.x + dot.y + dot.z) / (m_Normal.length() * v.length()));
+	// Conversion to degree
+	angle = angle * 180.0 / PI;
+
+	if (angle > 90)
+		return false;
+
+	return true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////

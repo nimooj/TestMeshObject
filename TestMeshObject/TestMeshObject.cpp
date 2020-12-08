@@ -72,8 +72,8 @@ bool isWindowed = true;
 bool isKeyboardProcessed[1024] = { 0 };
 
 // setting
-const unsigned int SCR_WIDTH = 2048;
-const unsigned int SCR_HEIGHT = 1024;
+const unsigned int SCR_WIDTH = 800;
+const unsigned int SCR_HEIGHT = 800;
 
 // camera
 Camera camera(glm::vec3(0.0f, 1.0f, -4.0f));
@@ -150,19 +150,13 @@ int main(int argc, char **argv)
 	// Human->LoadObj("model/Pose1.obj");
 
 	Human->SetFemale();
-	Human->LoadObj("model/Female/avatar_woman_new.obj");
-	Human->LoadObjMtl("model/Female/avatar_woman.mtl");
-	Human->LoadJoints("model/Female/avatar_woman_joints.Joint");
-	Human->LoadLandmarks("model/Female/avatar_woman_landmarks_new.Landmark");
-
 	/*
-	Human->SetMale();
-	Human->LoadObj("model/mick/source/Mick.obj");
-	Human->LoadJoints("model/mick/source/Mick_joints.Joint");
-	Human->LoadLandmarks("model/mick/source/Mick_landmarks.Landmark");
+	Human->LoadObj("model/woman/woman.obj");
+	Human->LoadJoints("model/woman/woman.Joint");
+	Human->LoadLandmarks("model/woman/woman.Landmark");
+	Human->WriteHuman("model/woman/woman.Human");
 	*/
-
-
+	Human->LoadHuman("model/woman/woman.Human");
 
 	// T 포즈로 변화
 	// Human->SetTPose(1.0f);
@@ -171,8 +165,8 @@ int main(int argc, char **argv)
 	Human->SetSize(Bust, 110.0);
 	Human->SetSize(Waist, 100.0);
 	Human->SetSize(Hip, 100.0);
-	Human->SetSize(ArmLengthR, 20.0);
 	/*
+	Human->SetSize(ArmLengthR, 20.0);
 	*/
 
 	std::cout << "\n\n======== Rendering Human" << std::endl;
@@ -194,47 +188,39 @@ int main(int argc, char **argv)
 	std::cout << "Leg Length L : " << (*Human->m_Landmarks)[LegLengthL]->m_Value << std::endl;
 	std::cout << "Shoulder Length : " << (*Human->m_Landmarks)[ShoulderLength]->m_Value << std::endl;
 
+	std::cout << "\n\n========= Landmarks\n" << Human->GetLandmarkNum() << std::endl;
+
 
 	glGenVertexArrays(1, &humanVAO);
 	glGenBuffers(1, &humanVBO);
 	glGenBuffers(1, &humanEBO);
 
 	glBindVertexArray(humanVAO);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, humanEBO);
-	std::vector<int> indexBuffer;
-	std::map<std::string, std::vector<int>>::iterator it0;
-
-	for (it0 = Human->m_IndexBuf.begin(); it0 != Human->m_IndexBuf.end(); it0++) {
-		for (int i = 0; i < it0->second.size(); i++) {
-			indexBuffer.push_back(it0->second[i]);
-		}
-	}
-
-	// glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * Human->m_IndexBuf.size(), &Human->m_IndexBuf[0], GL_STATIC_DRAW);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * indexBuffer.size(), &indexBuffer[0], GL_STATIC_DRAW);
-
+	/*** HUMAN VBO ***/
 	glBindBuffer(GL_ARRAY_BUFFER, humanVBO);
-	// glBufferData(GL_ARRAY_BUFFER, sizeof(float) * Human->m_VertBuf.size(), &Human->m_VertBuf[0], GL_STATIC_DRAW);
-
-	std::map<std::string, std::vector<float>>::iterator it;
-	for (it = Human->m_VertBuf.begin(); it != Human->m_VertBuf.end(); it++) {
+	for (std::map<std::string, std::vector<float>>::iterator it = Human->m_VertBuf.begin(); it != Human->m_VertBuf.end(); it++) {
 		for (int i = 0; i < it->second.size(); i++) {
 			renderBuffer.push_back(it->second[i]);
 		}
 	}
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * renderBuffer.size(), &renderBuffer[0], GL_STATIC_DRAW);
+	/*****************/
 
 
-	/*
-	for (int i = 0; i < Human->m_IndexBuf.size(); i+=3) {
-		std::cout << Human->m_IndexBuf[i] << " " << Human->m_IndexBuf[i + 1] << " " << Human->m_IndexBuf[i + 2] << std::endl;
-	} 
-	*/
+	/*** HUMAN EBO ***/
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, humanEBO);
+	std::vector<int> indexBuffer;
+	for (std::map<std::string, std::vector<int>>::iterator it = Human->m_IndexBuf.begin(); it != Human->m_IndexBuf.end(); it++) {
+		for (int i = 0; i < it->second.size(); i++) {
+			indexBuffer.push_back(it->second[i]);
+		}
+	}
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * indexBuffer.size(), &indexBuffer[0], GL_STATIC_DRAW);
+	/*****************/
 
 	// Position
 	GLuint humanPositionAttribute = glGetAttribLocation(humanShader.ID, "aPos");
-	glVertexAttribPointer(humanPositionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 11, 0);
+	glVertexAttribPointer(humanPositionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void*)0);
 	glEnableVertexAttribArray(humanPositionAttribute);
 
 	// Texture
@@ -251,27 +237,53 @@ int main(int argc, char **argv)
 	GLuint humanColorAttribute = glGetAttribLocation(humanShader.ID, "aColor");
 	glVertexAttribPointer(humanColorAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void *)(sizeof(float) * 8));
 	glEnableVertexAttribArray(humanColorAttribute);
-	glBindVertexArray(0);
 
 	humanShader.use();
 	unsigned int humanTextureId;
 
 	if (!Human->m_Texels->empty()) {
 		humanShader.setInt("isTexture", 0);
-		// humanShader.setVec3("Color", glm::vec3(0.3, 0.3, 0.3));
 	}
-	else  {
+	else {
 		humanShader.setInt("isTexture", 1);
-		humanTextureId = glGetUniformLocation(humanShader.ID, "texture");
 
-		glGenTextures(1, &humanTextureId);
-		glBindTexture(GL_TEXTURE_2D, humanTextureId);
+		mjTexture *thisTexture = (*Human->m_Textures)[0];
 
-		glActiveTexture(GL_TEXTURE0);
-		glUniform1i(humanTextureId, 0);
+		glGenTextures(1, &thisTexture->m_Id);
+		glBindTexture(GL_TEXTURE_2D, thisTexture->m_Id);
 
-		// Human->RenderTexture();
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		std::cout << "Importing " << thisTexture->m_Filename << "..." << std::endl;
+
+		stbi_set_flip_vertically_on_load(true);
+		thisTexture->m_TextureData = stbi_load(thisTexture->m_Filename.c_str(), &thisTexture->m_Width, &thisTexture->m_Height, &thisTexture->m_Channels, 0);
+
+		if (thisTexture->m_TextureData)
+		{
+			if (thisTexture->m_Channels == 3) {
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, thisTexture->m_Width, thisTexture->m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, thisTexture->m_TextureData);
+			}
+			else {
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, thisTexture->m_Width, thisTexture->m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, thisTexture->m_TextureData);
+			}
+		}
+		else {
+			std::cout << "Loading " << thisTexture->m_Filename << " failed..." << std::endl;
+		}
+
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		stbi_image_free(thisTexture->m_TextureData);
+
+
+		glUniform1i(glGetUniformLocation(humanShader.ID, "texture"), 0);
 	}
+
+	glBindVertexArray(0);
 	/*************/
 
 	/*** JOINT ***/
@@ -351,6 +363,40 @@ int main(int argc, char **argv)
 	/**************/
 
 
+
+	Shader defaultShader("../usr/shaders/shader_default.vs", "../usr/shaders/shader_default.fs");
+	GLuint VAO, VBO;
+	mjLandmark* BustLandmark = (*Human->m_Landmarks)[Waist];
+	std::vector<float> pos;
+	for (int i = 1; i < BustLandmark->m_RelatedPos.size(); i++) {
+		pos.push_back(BustLandmark->m_RelatedPos[i - 1].x);
+		pos.push_back(BustLandmark->m_RelatedPos[i - 1].y);
+		pos.push_back(BustLandmark->m_RelatedPos[i - 1].z);
+
+		pos.push_back(BustLandmark->m_RelatedPos[i].x);
+		pos.push_back(BustLandmark->m_RelatedPos[i].y);
+		pos.push_back(BustLandmark->m_RelatedPos[i].z);
+	}
+	pos.push_back(BustLandmark->m_RelatedPos[BustLandmark->m_RelatedPos.size() - 1].x);
+	pos.push_back(BustLandmark->m_RelatedPos[BustLandmark->m_RelatedPos.size() - 1].y);
+	pos.push_back(BustLandmark->m_RelatedPos[BustLandmark->m_RelatedPos.size() - 1].z);
+
+	pos.push_back(BustLandmark->m_RelatedPos[0].x);
+	pos.push_back(BustLandmark->m_RelatedPos[0].y);
+	pos.push_back(BustLandmark->m_RelatedPos[0].z);
+
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, pos.size() * sizeof(float), &pos[0], GL_STATIC_DRAW);
+	GLuint Position = glGetAttribLocation(defaultShader.ID, "aPos");
+	glVertexAttribPointer(Position, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
+	glEnableVertexAttribArray(Position);
+	glBindVertexArray(0);
+
+
+
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	//												GAME LOOP											 //
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -363,6 +409,7 @@ int main(int argc, char **argv)
 		// ------
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 
 		float currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
@@ -382,31 +429,37 @@ int main(int argc, char **argv)
 		humanShader.setMat4("view", view);
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::scale(model, glm::vec3(0.01f));
-		model = glm::translate(model, -(glm::vec3(4.82843, -2.41421, -0.2002) - camera.Position));
 		humanShader.setMat4("model", model);
 
 		glBindVertexArray(humanVAO);
 
 		glActiveTexture(GL_TEXTURE0);
-		// glBindTexture(GL_TEXTURE_2D, humanTextureId);
+		glBindTexture(GL_TEXTURE_2D, (*Human->m_Textures)[0]->m_Id);
 
-		if (showWire)
+		if (showWire) {
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		else
-			glPolygonMode(GL_FRONT_AND_BACK, GL_TRIANGLES);
-
-		if (show) {
-			// glDrawElements(GL_TRIANGLES, 120, GL_UNSIGNED_INT, 0);
-			glDrawElements(GL_TRIANGLES, indexBuffer.size(), GL_UNSIGNED_INT, 0);
 		}
-		// glDrawArrays(GL_TRIANGLES, 0, 120);
-		glDrawArrays(GL_TRIANGLES, 0, renderBuffer.size() / 3);
-
-		// Human->Render();
-
+		else {
+			glPolygonMode(GL_FRONT_AND_BACK, GL_TRIANGLES);
+		}
+		if (show) {
+			// glDrawElements(GL_TRIANGLES, indexBuffer.size(), GL_UNSIGNED_INT, 0);
+		}
+		// glDrawArrays(GL_TRIANGLES, 0, renderBuffer.size() / 3);
+		glDrawElements(GL_TRIANGLES, indexBuffer.size(), GL_UNSIGNED_INT, 0);
 
 		glBindVertexArray(0);
 		/********************/
+
+		defaultShader.use();
+		defaultShader.setMat4("projection", projection);
+		defaultShader.setMat4("view", view);
+		defaultShader.setMat4("model", model);
+		glBindVertexArray(VAO);
+		glDrawArrays(GL_POINTS, 0, pos.size());
+		glDrawArrays(GL_LINES, 0, pos.size());
+		glBindVertexArray(0);
+
 
 		/*** Render Joint ***/
 		jointShader.use();
@@ -438,8 +491,6 @@ int main(int argc, char **argv)
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
-
-	Human->WriteObj("model/Female/Tpose_test.obj");
 
 	glfwTerminate();
 	return 0;

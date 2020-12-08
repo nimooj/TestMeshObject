@@ -1,0 +1,96 @@
+﻿  TestMeshObject.cpp
+e:\nimooj\project\testmeshobject\usr\include\meshobject\meshobject.h(42): warning C4251: 'MeshObject::m_VertBuf': class 'std::vector<float,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'MeshObject'
+          with
+          [
+              _Ty=float
+          ]
+  e:\nimooj\project\testmeshobject\usr\include\meshobject\meshobject.h(27): note: see declaration of 'std::vector<float,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=float
+          ]
+e:\nimooj\project\testmeshobject\usr\include\meshobject\meshobject.h(43): warning C4251: 'MeshObject::m_IndexBuf': class 'std::vector<int,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'MeshObject'
+          with
+          [
+              _Ty=int
+          ]
+  e:\nimooj\project\testmeshobject\usr\include\meshobject\meshobject.h(28): note: see declaration of 'std::vector<int,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=int
+          ]
+e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(377): warning C4251: 'HumanObject::filepath': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'HumanObject'
+  e:\microsoft visual studio 2017\vc\tools\msvc\14.16.27023\include\xstring(4373): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(378): warning C4251: 'HumanObject::filename': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'HumanObject'
+  e:\microsoft visual studio 2017\vc\tools\msvc\14.16.27023\include\xstring(4373): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(379): warning C4251: 'HumanObject::mtlFilename': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'HumanObject'
+  e:\microsoft visual studio 2017\vc\tools\msvc\14.16.27023\include\xstring(4373): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(400): warning C4251: 'HumanObject::m_IndexBuf': class 'std::map<std::string,std::vector<int,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>' needs to have dll-interface to be used by clients of class 'HumanObject'
+          with
+          [
+              _Ty=int,
+              _Kty=std::string
+          ]
+  e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(400): note: see declaration of 'std::map<std::string,std::vector<int,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>'
+          with
+          [
+              _Ty=int,
+              _Kty=std::string
+          ]
+e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(403): warning C4251: 'HumanObject::m_VertBuf': class 'std::map<std::string,std::vector<float,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>' needs to have dll-interface to be used by clients of class 'HumanObject'
+          with
+          [
+              _Ty=float,
+              _Kty=std::string
+          ]
+  e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(403): note: see declaration of 'std::map<std::string,std::vector<float,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>'
+          with
+          [
+              _Ty=float,
+              _Kty=std::string
+          ]
+e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(404): warning C4251: 'HumanObject::m_TexBuf': class 'std::map<std::string,std::vector<float,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>' needs to have dll-interface to be used by clients of class 'HumanObject'
+          with
+          [
+              _Ty=float,
+              _Kty=std::string
+          ]
+  e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(403): note: see declaration of 'std::map<std::string,std::vector<float,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>'
+          with
+          [
+              _Ty=float,
+              _Kty=std::string
+          ]
+e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(405): warning C4251: 'HumanObject::m_NormBuf': class 'std::map<std::string,std::vector<float,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>' needs to have dll-interface to be used by clients of class 'HumanObject'
+          with
+          [
+              _Ty=float,
+              _Kty=std::string
+          ]
+  e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(403): note: see declaration of 'std::map<std::string,std::vector<float,std::allocator<_Ty>>,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::vector<_Ty,std::allocator<_Ty>>>>>'
+          with
+          [
+              _Ty=float,
+              _Kty=std::string
+          ]
+e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(416): warning C4251: 'HumanObject::m_Segment': class 'std::vector<mjVertex *,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'HumanObject'
+          with
+          [
+              _Ty=mjVertex *
+          ]
+  e:\nimooj\project\testmeshobject\usr\include\meshobject\humanobject.h(101): note: see declaration of 'std::vector<mjVertex *,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=mjVertex *
+          ]
+e:\nimooj\project\testmeshobject\testmeshobject\testmeshobject.cpp(380): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+e:\nimooj\project\testmeshobject\testmeshobject\testmeshobject.cpp(415): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+e:\nimooj\project\testmeshobject\testmeshobject\testmeshobject.cpp(243): warning C4101: 'humanTextureId': unreferenced local variable
+e:\nimooj\project\testmeshobject\testmeshobject\testmeshobject.cpp(519): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+e:\nimooj\project\testmeshobject\testmeshobject\testmeshobject.cpp(520): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+e:\nimooj\project\testmeshobject\testmeshobject\testmeshobject.cpp(524): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\nimooj\project\testmeshobject\testmeshobject\testmeshobject.cpp(525): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+e:\nimooj\project\testmeshobject\testmeshobject\testmeshobject.cpp(526): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+e:\nimooj\project\testmeshobject\testmeshobject\testmeshobject.cpp(533): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  TestMeshObject.vcxproj -> E:\nimooj\Project\TestMeshObject\usr\bin\TestMeshObject.exe
